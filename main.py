@@ -49,20 +49,26 @@ driver.get('https://csc.service-now.com/login_locate_sso.do')  # Replace with th
 email_login_field = driver.find_element(By.ID, 'sso_selector_id') # Finds email field for login
 email_login_field.send_keys(email) # Enters email in the field
 email_login_field.send_keys(Keys.RETURN) # Click the "Submit" button after entering the email
-time.sleep (15)
+time.sleep (7)
 
 # After the previous sleep, navigate to a new URL in the same tab
 new_url = 'https://csc.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_query%3Dassignment_group%253D8f3a2549db47ff089a8da5db0b96197d%255EORassignment_group%253Dfa3a2549db47ff089a8da5db0b961923%255Estate%253D1%255EORstate%253D2%26sysparm_first_row%3D1%26sysparm_view%3D'  # Replace with the URL you want to navigate to
 driver.get(new_url)
-time.sleep(5)
+time.sleep(3)
 
 # Define the URL you want to navigate to
-url_to_refresh = 'https://csc.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_query%3Dassignment_group%253D8f3a2549db47ff089a8da5db0b96197d%255EORassignment_group%253Dfa3a2549db47ff089a8da5db0b961923%255Estate%253D1%255EORstate%253D2%26sysparm_first_row%3D1%26sysparm_view%3D'  # Replace with the URL you want to navigate to
-
-# Keep refreshing indefinitely
-while True:
-    # Navigate to the URL
-    driver.get(url_to_refresh)
+urls_to_refresh = [
+    ('https://csc.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_query%3Dassignment_group%253D8f3a2549db47ff089a8da5db0b96197d%255EORassignment_group%253Dfa3a2549db47ff089a8da5db0b961923%255Estate%253D1%255EORstate%253D2%26sysparm_first_row%3D1%26sysparm_view%3D', 5),
+    ('https://csc.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_query%3Dassignment_group%253D8f3a2549db47ff089a8da5db0b96197d%255EORassignment_group%253Dfa3a2549db47ff089a8da5db0b961923%255Estate%253D1%255EORstate%253D2%255Eassigned_to%253D24872c58dbb8105c568acebe3b961932%255EORassigned_to%253Dbc189106dbfbb7c4f9dfcebe3b961960%26sysparm_first_row%3D1%26sysparm_view%3D', 5),
+    ('https://csc.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_query%3Dassignment_group%253D8f3a2549db47ff089a8da5db0b96197d%255EORassignment_group%253Dfa3a2549db47ff089a8da5db0b961923%255Estate%253D1%255EORstate%253D2%255Eassigned_to%253Dbc189106dbfbb7c4f9dfcebe3b961960%26sysparm_first_row%3D1%26sysparm_view%3D', 5)
+]
     
-    # Wait for 60 seconds before refreshing again
-    time.sleep(5) 
+# Monitor and Refresh URLs
+while True:
+    for url, refresh_interval in urls_to_refresh:
+# Navigate to the URL
+        driver.get(url)
+    
+# Wait for the specified interval before refreshing again
+        time.sleep(refresh_interval)
+# ------------------It's working fine till here -----------------------------------------------
